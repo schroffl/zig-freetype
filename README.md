@@ -17,7 +17,7 @@ To use the library you first need to add the dependency to your `build.zig.zon` 
 }
 ```
 
-In your `build.zig` you need to add the translated headers as a module a link the library:
+In your `build.zig` you need to add the translated headers as a module and link the library:
 
 ```zig
 const std = @import("std");
@@ -27,18 +27,18 @@ pub fn build(b: *std.Build) void {
     const optimize = b.standardOptimizeOption(.{});
 
     const exe = b.addExecutable(.{
-            .name = "freetype-test",
-            .root_source_file = .{ .path = "src/main.zig" },
-            .target = target,
-            .optimize = optimize,
-            });
+        .name = "freetype-test",
+        .root_source_file = .{ .path = "src/main.zig" },
+        .target = target,
+        .optimize = optimize,
+    });
 
     // Add the freetype module and link the library
     {
         const ft_dep = b.dependency("freetype", .{
-                .optimize = optimize,
-                .target = target,
-                });
+            .optimize = optimize,
+            .target = target,
+        });
 
         exe.addModule("freetype", ft_dep.module("freetype"));
         exe.linkLibrary(ft_dep.artifact("freetype"));
